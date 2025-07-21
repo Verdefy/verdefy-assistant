@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify
 import requests
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+# ✅ Use environment variable directly (Render sets this automatically)
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+if not GROQ_API_KEY:
+    raise ValueError("Missing GROQ_API_KEY environment variable")
 
 app = Flask(__name__)
 
@@ -52,7 +53,7 @@ def chat():
     reply = data["choices"][0]["message"]["content"]
     return jsonify({"response": reply})
 
-# ✅ ADD THIS BELOW
+# ✅ Entry point for deployment
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
