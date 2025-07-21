@@ -1,3 +1,14 @@
+from flask import Flask, request, jsonify
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+app = Flask(__name__)
+
 @app.route("/chat", methods=["POST"])
 def chat():
     user_message = request.json.get("message", "")
@@ -5,7 +16,7 @@ def chat():
     if not user_message:
         return jsonify({"error": "No message provided"}), 400
 
-    # 👇 Debug prints to check key
+    # Debug: Log incoming message and key snippet
     print("User message:", user_message)
     print("Loaded API key:", GROQ_API_KEY[:6] + "********")
 
@@ -34,9 +45,14 @@ def chat():
     )
 
     if response.status_code != 200:
-        print("Groq error response:", response.text)  # 👈 Add this too
+        print("Groq error response:", response.text)
         return jsonify({"error": "Something went wrong", "details": response.text}), 500
 
     data = response.json()
     reply = data["choices"][0]["message"]["content"]
     return jsonify({"response": reply})
+
+# ✅ ADD THIS BELOW
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
