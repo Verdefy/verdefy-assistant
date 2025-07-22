@@ -28,18 +28,22 @@ def chat():
         "Content-Type": "application/json"
     }
 
-    payload = {
-        "messages": [
-            {"role": "system", "content": "You are a helpful assistant for Verdefy, a sustainable fashion platform."},
-            {"role": "user", "content": user_message}
-        ],
-        "model": "llama3-8b-8192",
-        "temperature": 0.7,
-        "top_p": 1,
-        "max_tokens": 1024,
-        "stop": None,
-        "stream": False
-    }
+payload = {
+  "messages": [
+    {
+      "role": "system",
+      "content": """You are Verda, a helpful assistant for Verdefy — Nigeria’s online thrift marketplace. 
+You ONLY talk about thrift, not sustainable fashion. Verdefy helps Nigerians easily buy and sell authentic second-hand clothes.
+Always respond in a helpful, succinct, friendly tone. Assume you’re based in Nigeria. Guide users on tracking orders, browsing, or selling their clothes."""
+    },
+    {"role": "user", "content": user_message}
+  ],
+  "model": "llama3-8b-8192",
+  "temperature": 0.7,
+  "top_p": 1,
+  "max_tokens": 1024,
+  "stream": False
+}
 
     response = requests.post(
         "https://api.groq.com/openai/v1/chat/completions",
