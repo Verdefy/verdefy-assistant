@@ -1,0 +1,11 @@
+Stockpile is a Verdefy feature that allows customers to buy now and ship later. It was built to help users save money on delivery by combining multiple orders into one shipment.
+
+When customers choose the Stockpile option under add to cart and at checkout, their order is tagged as 'Stockpile' and stored without being shipped immediately. Customers can continue shopping and add more items to their stockpile. Once they're ready to receive everything at once, they can request for shipping.
+
+Verdefy sends periodic reminder emails based on how long the order has been stockpiled. Customers can receive reminders at intervals like 3 days, 7 days, 14 days, etc.
+
+The Stockpile system also includes an internal notification tag for the admin to track how long an order has stayed in the system without shipment.
+
+To activate Stockpile, customers simply tick the 'Stockpile my order (ship later)' checkbox during checkout. A confirmation email is sent immediately, and future emails help them manage when to request delivery.
+
+This service is popular among customers who buy often or want to save on combined delivery costs.
