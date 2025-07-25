@@ -1,27 +1,30 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+from dotenv import load_dotenv  # NEW
 from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 
-# ✅ Load OpenAI key from environment
+# ✅ Load environment variables from .env (for local dev)
+load_dotenv()
+
+# ✅ Get OpenAI API Key from environment
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise ValueError("Missing OPENAI_API_KEY environment variable")
 
-# ✅ Flask app setup
+# ✅ Initialize Flask app
 app = Flask(__name__)
 CORS(app)
 
-# ✅ Load your trained Verdefy vector DB
+# ✅ Load FAISS vector store
 DB_FOLDER = "verdefy_vector_db"
 embedding_model = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 db = FAISS.load_local(DB_FOLDER, embeddings=embedding_model, allow_dangerous_deserialization=True)
 
-
-# ✅ RetrievalQA chain that uses your custom data
+# ✅ LangChain RetrievalQA pipeline
 retriever = db.as_retriever()
 qa_chain = RetrievalQA.from_chain_type(
     llm=ChatOpenAI(temperature=0.7, openai_api_key=OPENAI_API_KEY),
@@ -45,3 +48,4 @@ def chat():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
+
