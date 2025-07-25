@@ -18,7 +18,8 @@ CORS(app)
 # ✅ Load your trained Verdefy vector DB
 DB_FOLDER = "verdefy_vector_db"
 embedding_model = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
-db = FAISS.load_local(DB_FOLDER, embeddings=embedding_model)
+db = FAISS.load_local(DB_FOLDER, embeddings=embedding_model, allow_dangerous_deserialization=True)
+
 
 # ✅ RetrievalQA chain that uses your custom data
 retriever = db.as_retriever()
