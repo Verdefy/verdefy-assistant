@@ -37,4 +37,5 @@ yarl==1.20.1
 flask-cors
 langchain-community
 faiss-cpu
+tiktoken
 
